@@ -1,0 +1,32 @@
+body {
+    background: black;
+    color: white;
+  }
+  
+  canvas {
+    border: 2px solid red;
+    position: absolute;
+  }
+  
+  #game {
+    display: flex;
+    height: 300px;
+  }
+  
+  #scores {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .collision {
+    background: red;
+    color: white;
+  }
+  .collision-push {
+    background: blue;
+    color: white;
+  }
+  .revert {
+    background: black;
+    color: white;
+  }

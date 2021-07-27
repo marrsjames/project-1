@@ -1,0 +1,6 @@
+- simulating gravity. when nothing is pressed the thing goes down
+- bump when button is pressed that makes reaction look smoother
+- how to make movements smoother?
+
+
+create enormous array (1000000)
