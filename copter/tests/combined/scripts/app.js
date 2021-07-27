@@ -4,35 +4,45 @@ const topBlockContext = canvas.getContext('2d');
 const bottomBlockContext = canvas.getContext('2d');
 const heliContext = heliCanvas.getContext('2d')
 const background = document.querySelector('body')
+const currentScore = document.querySelector('#score')
+const currentLevel = document.querySelector('#level')
 const img = new Image();
 img.src = 'assets/heli.png';
 topBlockContext.fillStyle = 'yellow'
 let one = 1
+let heliXInitial = 200
+let initialBlockHeights = 50
+let score = 0
+let hundred = 0
+let level = 1
+currentScore.textContent = score;
+currentLevel.textContent = level;
 
 const helicopter = {
-    xPosition: 200,
+    xPosition: heliXInitial,
     yPosition: 0,
     xMoveInitial: 0,
     yMoveInitial: 1,
     topPaddleX: 150,
-    bottomPaddleX: 100   
+    bottomPaddleX: 100 ,
+    width: 100,
+    height: 33  
 }
 let xMove = helicopter.xMoveInitial
 let yMove = helicopter.yMoveInitial
 
 const topBlockLimits = {
-  height: 140,
-  changeWidth: 200
+  height: initialBlockHeights,
 }
 const bottomBlockLimits = {
-  height: 140,
-  changeWidth: 200
+  height: initialBlockHeights,
 }
 
 
+function makeMountainArrays() {
 topMountainArray = []
 bottomMountainArray = []
-//let topBlockY = Math.floor(Math.random() * (topBlockLimits.height - 1 + 1)) + 1;
+
 ////////TOP PART////////////
 //pre entering cave 400 parts
 let topBlockY = 0
@@ -90,8 +100,11 @@ for (let i = 500; i<= 99999; i++) {
 }
 bottomBlockY = bottomBlockY + one;
 }
+}
 
-let gamePosition = 0
+
+makeMountainArrays()
+let gamePosition = 400
 
 //heli and background movement
 setInterval(() => {
@@ -102,56 +115,64 @@ setInterval(() => {
    for (let i = 0; i<= 400; i++) {
     bottomBlockContext.fillRect(i, 300 - bottomMountainArray[gamePosition + i], 1, bottomMountainArray[gamePosition + i])
    }
-//   bottomBlockContext.fillRect(50,80, 1, 200)
 
-//    bottomBlockContext.fillRect(40, 40, 1, 150)
 heliContext.clearRect(0, 0, 400, 300)
-//  context.fillRect(helicopter.xPosition, helicopter.yPosition, 20, 20)
 heliContext.drawImage(img, helicopter.xPosition, helicopter.yPosition, 100, 33);
   //helicopter.xPosition += xMove
   helicopter.yPosition += yMove
 
-
-
   //heli collision
-  // for (let j = 0; j<= 100; j++) {
-  //   if (helicopter.xPosition = 200 + i)
-  //   if (helicopter.yPosition <= topMountainArray[gamePosition+200]) {
-  //     console.log('top reached')
-  //     background.classList.add('collision')
-  //   }
-  //   }
-  
-
-  if (helicopter.yPosition <= topMountainArray[gamePosition+200]) {
-    console.log('top reached')
+  for (let i = 0; i<= helicopter.width; i++) {
+  if (helicopter.yPosition <= topMountainArray[gamePosition+heliXInitial+i]) {
+  //  console.log('top collisio')
     background.classList.add('collision')
-
-  } else if (helicopter.yPosition >= 300 - bottomMountainArray[gamePosition + 200]) {
-    console.log('bottom reached')
+  }  
+  else if (helicopter.yPosition + helicopter.height >= 300 - bottomMountainArray[gamePosition + heliXInitial + i]) {
+  //  console.log('bottom collision')
     background.classList.add('collision')    
-  } else {
-    background.classList.remove('collision')
   }
-
+  else {
+   //   console.log('safe')
+      background.classList.remove('collision')    
+  }
+  }
+  
  gamePosition++
 
   }, 10)
+
+
+  setInterval(() => {
+    if (hundred === 100){
+      hundred = 0
+      level ++
+    }
+    score++
+    hundred++
+    currentScore.textContent = score
+
+    currentScore.textContent = score
+    currentLevel.textContent = level
+  }, 100)
 
 function onkeydown(e) {
     //up key
     if (e.keyCode === 38) {
          helicopter.yPosition -= 30;
     }
+    if (e.keyCode === 40) {
+      helicopter.yPosition += 30;
+ }
   }
 
   function reset() {
-      helicopter.xPosition = 200
+      helicopter.xPosition = heliXInitial
       helicopter.yPosition = 0
       xMove = helicopter.xMoveInitial
       yMove = helicopter.yMoveInitial
       gamePosition = 0
-
+      score = 0
+      level = 1
     }
   window.addEventListener("keydown", onkeydown);
   heliCanvas.addEventListener('click', reset)

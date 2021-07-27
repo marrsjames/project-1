@@ -3,21 +3,24 @@ body {
     color: white;
   }
   
-  canvas {
+  #background, #heli {
     border: 2px solid red;
-    position: absolute;
+     position: absolute; 
+    /* display: flex; */
   }
-  
-  #game {
+
+  #game-and-score {
     display: flex;
-    height: 300px;
   }
-  
+
   #scores {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+      flex-direction: column;
+      justify-content: space-between;
+      /* margin-top: 500px; */
+      margin-left: 410px;
   }
+  
   .collision {
     background: red;
     color: white;

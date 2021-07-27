@@ -1,6 +1,9 @@
 - simulating gravity. when nothing is pressed the thing goes down
 - bump when button is pressed that makes reaction look smoother
 - how to make movements smoother?
+- how to make the levels tougher each time? Increase height of mountains. Needs to be built into array at beginning? every 10 seconds
+
+
 
 
 create enormous array (1000000)
