@@ -8,7 +8,10 @@ body {
      position: absolute; 
     /* display: flex; */
   }
-
+  
+  canvas {
+    z-index : -1; 
+  }
   #game-and-score {
     display: flex;
   }
@@ -32,4 +35,11 @@ body {
   .revert {
     background: black;
     color: white;
+  }
+  
+  #play-again {
+    margin-left: 200px;
+    width: 100px;
+    height: 50px;
+
   }
