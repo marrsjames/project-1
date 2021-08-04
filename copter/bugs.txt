@@ -1,1 +1,2 @@
--button pops up if screen clicked during pause before endgame
+- sometimes gaps between blocks / peaks make it impossible. Too small
+- explosion is not in right spot

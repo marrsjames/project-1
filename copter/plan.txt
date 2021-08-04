@@ -2,8 +2,17 @@
 - bump when button is pressed that makes reaction look smoother
 - how to make movements smoother?
 - how to make the levels tougher each time? Increase height of mountains. Needs to be built into array at beginning? every 10 seconds
-
-
-
-
 create enormous array (1000000)
+
+-------
+
+- random peaks getting larger throughout. Made in similar way to combo of top / bottom peaks and random blocks
+- a shooter to remove blocks 
+- rewards thing that increases score
+- reward that slows down game
+- hi score storage? in cache?
+- reverse game?
+- opening screen?
+
+
+- move to centre of screen
