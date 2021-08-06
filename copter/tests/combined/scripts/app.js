@@ -166,6 +166,7 @@ function makeRandomBlockArrays() {
     levelAddition += 1000;
   }
 
+  //bonus blocks
   levelAddition = 0;
   for (let i = 0; i <= 13; i++) {
     for (let j = 0; j < i; j++) {
@@ -176,7 +177,6 @@ function makeRandomBlockArrays() {
     }
     levelAddition += 1000;
   }
-
 }
 
 makeRandomBlockArrays();
@@ -206,19 +206,13 @@ function runGame() {
       );
     }
 
-    function collisionHappens(X,Y){
+    function collisionHappens(X, Y) {
       heliCanvas.removeEventListener("click", reset);
-     isRunning = false;
-     clearInterval(handlegame);
-     heliContext.drawImage(
-       explosionImg,
-       X,
-       Y - 30,
-       80,
-       73
-     );
-     setTimeout(endGame, 1000);
-     }
+      isRunning = false;
+      clearInterval(handlegame);
+      heliContext.drawImage(explosionImg, X, Y - 30, 80, 73);
+      setTimeout(endGame, 1000);
+    }
 
     //random blocks
     //every 1000... random amount of randomly placed blocks getting larger and more frequent
@@ -229,7 +223,6 @@ function runGame() {
 
     // draw the random array and add it to a new array (with game position info)
     for (let j = 0; j <= testarray.xPosition.length; j++) {
-      yRandomPosition = Math.floor(Math.random() * canvasHeight) + 1;
       topBlockContext.fillRect(
         blockplacement - gamePosition + testarray.xPosition[j],
         testarray.yPosition[j],
@@ -244,6 +237,20 @@ function runGame() {
       randomBlockArray.height.push(testarray.ySize[j]);
     }
 
+    // put bonus point icons in
+    // for (let j = 0; j <= bonusArray.xPosition.length; j++) {
+    //   topBlockContext.drawImage(
+    //     bonusPointImg,
+    //     blockplacement - gamePosition + bonusArray.xPosition[j],
+    //     bonusArray.yPosition[j],
+    //     bonusArray.width,
+    //     bonusArray.height
+    //   );
+    //   bonusIconArray.xPosition.push(
+    //     blockplacement - gamePosition + bonusArray.xPosition[j]
+    //   );
+    //   bonusIconArray.yPosition.push(bonusArray.yPosition[j]);
+    // }
 
     heliMovement();
 
@@ -260,20 +267,7 @@ function runGame() {
 
       helicopter.yPosition += yMove;
 
-        //bonus points!!
-      for (let j = 0; j <= bonusArray.xPosition.length; j++) {
-      heliContext.drawImage(
-        bonusPointImg,
-        blockplacement - gamePosition + bonusArray.xPosition[j],
-        bonusArray.yPosition[j],
-        60,
-        60
-      );
-      }
-      
-      //detect front on collision with random block
-      //topBlockContext.fillRect(helicopter.xPosition, helicopter.yPosition , 1, helicopter.height)
-      //topBlockContext.fillRect(helicopter.xPosition + helicopter.width, helicopter.yPosition , 1, helicopter.height)
+      //detect front on collision with random block)
       //100 BEing a limited size of the massive array of random blocks
       for (let j = 0; j <= 100; j++) {
         //if x position heli is same as block
@@ -291,7 +285,32 @@ function runGame() {
               helicopter.yPosition + l <=
                 randomBlockArray.yPosition[j] + randomBlockArray.height[j]
             ) {
-              collisionHappens(helicopter.xPosition,helicopter.yPosition)
+              collisionHappens(helicopter.xPosition, helicopter.yPosition);
+              break;
+            }
+          }
+          break;
+        }
+      }
+
+      //detect front on collision with BONUS
+      for (let j = 0; j <= 100; j++) {
+        //if x position heli is same as block
+        if (
+          gamePosition +
+            heliXInitial +
+            helicopter.width +
+            helicopter.frontAdjustment ===
+          bonusIconArray.xPosition[j]
+        ) {
+          //if y position is same as block
+          for (l = 0; l <= helicopter.height; l++) {
+            if (
+              helicopter.yPosition + l >= bonusIconArray.yPosition[j] &&
+              helicopter.yPosition + l <=
+                bonusIconArray.yPosition[j] + bonusArray.height
+            ) {
+              console.log("bonus crash front");
               break;
             }
           }
@@ -315,7 +334,7 @@ function runGame() {
               gamePosition + heliXInitial + k + helicopter.frontAdjustment <=
                 randomBlockArray.xPosition[j] + randomBlockArray.width[j]
             ) {
-              collisionHappens(helicopter.xPosition,helicopter.yPosition)
+              collisionHappens(helicopter.xPosition, helicopter.yPosition);
               break;
             }
           }
@@ -328,18 +347,18 @@ function runGame() {
         //   //if Y position is same as top of block
         if (
           helicopter.yPosition + helicopter.height >=
-            bonusArray.yPosition[j] &&
+            bonusIconArray.yPosition[j] &&
           helicopter.yPosition + helicopter.height <=
-          bonusArray.yPosition[j] + 1
+            bonusIconArray.yPosition[j] + 1
         ) {
           for (k = 0; k <= helicopter.width; k++) {
             if (
               gamePosition + heliXInitial + k + helicopter.frontAdjustment >=
-              bonusArray.xPosition[j] &&
+                bonusIconArray.xPosition[j] &&
               gamePosition + heliXInitial + k + helicopter.frontAdjustment <=
-              bonusArray.xPosition[j] + bonusArray.width
+                bonusIconArray.xPosition[j] + bonusArray.width
             ) {
-              console.log('wohoo')
+              console.log("bonus crash on bottom of icon");
               break;
             }
           }
@@ -364,7 +383,7 @@ function runGame() {
               gamePosition + heliXInitial + k + helicopter.frontAdjustment <=
                 randomBlockArray.xPosition[j] + randomBlockArray.width[j]
             ) {
-              collisionHappens(helicopter.xPosition,helicopter.yPosition)
+              collisionHappens(helicopter.xPosition, helicopter.yPosition);
               break;
             }
           }
@@ -372,13 +391,38 @@ function runGame() {
         }
       }
 
-      //heli collision top 
+      //detect collision on top with bonus icon////////
+      for (let j = 0; j <= 100; j++) {
+        //   //if Y position is same as top of block
+        if (
+          helicopter.yPosition >=
+            bonusIconArray.yPosition[j] + bonusIconArray.height &&
+          helicopter.yPosition <=
+            bonusIconArray.yPosition[j] + 1 + bonusIconArray.height
+        ) {
+          //      console.log('hit')
+          for (k = 0; k <= helicopter.width; k++) {
+            if (
+              gamePosition + heliXInitial + k + helicopter.frontAdjustment >=
+                bonusIconArray.xPosition[j] &&
+              gamePosition + heliXInitial + k + helicopter.frontAdjustment <=
+                bonusIconArray.xPosition[j] + bonusIconArray.width
+            ) {
+              console.log("bonus crash on top of icon");
+              break;
+            }
+          }
+          break;
+        }
+      }
+
+      //heli collision top
       for (let i = 0; i <= helicopter.width; i++) {
         if (
           helicopter.yPosition <=
           topMountainArray[gamePosition + heliXInitial + i]
         ) {
-          collisionHappens(helicopter.xPosition,helicopter.yPosition)
+          collisionHappens(helicopter.xPosition, helicopter.yPosition);
           break;
         }
 
@@ -387,7 +431,7 @@ function runGame() {
           helicopter.yPosition + helicopter.height >=
           canvasHeight - bottomMountainArray[gamePosition + heliXInitial + i]
         ) {
-          collisionHappens(helicopter.xPosition,helicopter.yPosition)
+          collisionHappens(helicopter.xPosition, helicopter.yPosition);
           break;
         } else {
           //   console.log('safe')
@@ -398,8 +442,6 @@ function runGame() {
 
     if (gameContinue === true) {
       gamePosition++;
-      // console.log(gamePosition)
-      // console.log(helicopter.xPosition)
     }
 
     if (gamePosition >= heliXInitial - helicopter.width) {
@@ -412,8 +454,6 @@ function runGame() {
         }
       }
     }
-    console.log(gamePosition + heliXInitial + k + helicopter.frontAdjustment)
-
   }, 10);
 }
 //run the above function
@@ -455,8 +495,6 @@ function endGame() {
 
   const buttonClick = document.querySelector("#play-again");
   function handleClick() {
-    //    circle.classList.toggle('pulse')
-    // console.log('clicked')
     reset();
   }
   buttonClick.addEventListener("click", handleClick);

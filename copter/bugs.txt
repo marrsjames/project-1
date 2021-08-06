@@ -1,2 +1,4 @@
 - sometimes gaps between blocks / peaks make it impossible. Too small
 - explosion is not in right spot
+- emerging blocks / peaks communicating with each other so there's always a gap big enough to get through
+- collision detection way more precise than 

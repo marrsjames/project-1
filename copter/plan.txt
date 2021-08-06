@@ -10,9 +10,8 @@ create enormous array (1000000)
 - a shooter to remove blocks 
 - rewards thing that increases score
 - reward that slows down game
-- hi score storage? in cache?
-- reverse game?
+- hi score storage? in cache? Easy enough for the current session
+- reverse direction but continue game 
 - opening screen?
-
-
-- move to centre of screen
+- sounds
+- move to centre of screen & put an image around it 
